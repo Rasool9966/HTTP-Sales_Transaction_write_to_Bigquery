@@ -83,26 +83,26 @@ def sales_data(request):
     }
 
 
-    # Insert into BigQuery
-    if BQ_TABLE:
-        try:
-            errors = bq_client.insert_rows_json(BQ_TABLE, [row])
-            if errors:
-                logger.error("Failed to insert rows into BigQuery: %s", errors)
-                return make_response(jsonify({"error": "Failed to insert data into BigQuery"}), 500)
-            logger.info("Data inserted into BigQuery successfully")
-        except Exception as e:
-            logger.exception("Error inserting data into BigQuery: %s", str(e))
-            return make_response(jsonify({"error": "Internal server error"}), 500)
-    else:
-        logger.warning("BigQuery table not configured, skipping data insertion")
+    # # Insert into BigQuery
+    # if BQ_TABLE:
+    #     try:
+    #         errors = bq_client.insert_rows_json(BQ_TABLE, [row])
+    #         if errors:
+    #             logger.error("Failed to insert rows into BigQuery: %s", errors)
+    #             return make_response(jsonify({"error": "Failed to insert data into BigQuery"}), 500)
+    #         logger.info("Data inserted into BigQuery successfully")
+    #     except Exception as e:
+    #         logger.exception("Error inserting data into BigQuery: %s", str(e))
+    #         return make_response(jsonify({"error": "Internal server error"}), 500)
+    # else:
+    #     logger.warning("BigQuery table not configured, skipping data insertion")
 
-    # Return final response
-    return make_response(jsonify({
-        "order_id": order_id,
-        "status": "success",
-        "message": "Transaction processed and stored successfully"
-    }), 200)
+    # # Return final response
+    # return make_response(jsonify({
+    #     "order_id": order_id,
+    #     "status": "success",
+    #     "message": "Transaction processed and stored successfully"
+    # }), 200)
 # End of main.py
 # Note: Ensure that the environment variable BQ_TABLE is set to the correct BigQuery table path
 # when deploying this function.
